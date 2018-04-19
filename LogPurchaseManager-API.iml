@@ -34,5 +34,7 @@
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-client:9.4.8.v20171121" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty.websocket:websocket-servlet:9.4.8.v20171121" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty.websocket:websocket-api:9.4.8.v20171121" level="project" />
+    <orderEntry type="library" name="Maven: com.h2database:h2:1.4.196" level="project" />
+    <orderEntry type="library" name="Maven: io.github.dunca.logpurchasemanager.shared:LogPurchaseManager-Shared:1.0-SNAPSHOT" level="project" />
   </component>
 </module>
