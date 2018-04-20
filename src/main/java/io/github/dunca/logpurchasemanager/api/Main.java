@@ -2,7 +2,7 @@ package io.github.dunca.logpurchasemanager.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.dunca.logpurchasemanager.api.dao.DatabaseHelper;
-import io.github.dunca.logpurchasemanager.api.route.AcquisitonRoute;
+import io.github.dunca.logpurchasemanager.api.route.AggregationRoute;
 import io.github.dunca.logpurchasemanager.api.route.FullAcquisitionRoute;
 import io.github.dunca.logpurchasemanager.api.route.StaticDataRoute;
 import io.github.dunca.logpurchasemanager.api.route.response.constants.ResponseMessages;
@@ -25,7 +25,6 @@ import static spark.Spark.after;
 import static spark.Spark.before;
 import static spark.Spark.exception;
 import static spark.Spark.get;
-import static spark.Spark.patch;
 import static spark.Spark.port;
 import static spark.Spark.post;
 
@@ -125,9 +124,7 @@ public class Main {
 
         registerGet("/staticdata", new StaticDataRoute(dbHelper));
         registerPost("/fullacquisition", new FullAcquisitionRoute(dbHelper));
-        registerPatch("/acqusitions", new AcquisitonRoute(dbHelper));
-        registerPatch("/acquisitionitems", new AcquisitonRoute(dbHelper));
-        registerPatch("/logprices", new AcquisitonRoute(dbHelper));
+        registerPost("/aggregation", new AggregationRoute(dbHelper));
     }
 
     private static void registerGet(String path, Route route) {
@@ -136,9 +133,5 @@ public class Main {
 
     private static void registerPost(String path, Route route) {
         post(path, route, jsonResponseTransformer);
-    }
-
-    private static void registerPatch(String path, Route route) {
-        patch(path, route, jsonResponseTransformer);
     }
 }
