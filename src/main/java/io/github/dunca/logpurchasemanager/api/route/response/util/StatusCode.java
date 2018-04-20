@@ -14,4 +14,8 @@ public class StatusCode {
     public static void badRequest(Response response) {
         response.status(400);
     }
+
+    public static void created(Response response) {
+        response.status(201);
+    }
 }
