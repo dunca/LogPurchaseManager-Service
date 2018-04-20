@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_5">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
@@ -36,5 +36,6 @@
     <orderEntry type="library" name="Maven: org.eclipse.jetty.websocket:websocket-api:9.4.8.v20171121" level="project" />
     <orderEntry type="library" name="Maven: com.h2database:h2:1.4.196" level="project" />
     <orderEntry type="library" name="Maven: io.github.dunca.logpurchasemanager.shared:LogPurchaseManager-Shared:1.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.16.20" level="project" />
   </component>
 </module>
