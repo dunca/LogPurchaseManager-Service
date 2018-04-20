@@ -117,7 +117,7 @@ public class DatabaseHelper {
      *
      * @throws SQLException if an underlying SQL related error occurs
      */
-    private void createDatabaseTables() throws java.sql.SQLException {
+    public void createDatabaseTables() throws java.sql.SQLException {
         createDatabaseTable(Acquirer.class);
         createDatabaseTable(Acquisition.class);
         createDatabaseTable(AcquisitionItem.class);
@@ -135,8 +135,9 @@ public class DatabaseHelper {
 
     private <T extends Model> RuntimeExceptionDao<T, Integer> getDao(Class<T> modelClass) {
         RuntimeExceptionDao<T, Integer> dao = null;
+        
         try {
-            dao = DaoManager.createDao(connectionSource, modelClass);
+            dao = RuntimeExceptionDao.createDao(connectionSource, modelClass);
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Could not create DAO instance...", e);
             System.exit(-1);
@@ -145,42 +146,51 @@ public class DatabaseHelper {
         return dao;
     }
 
-    public void createAcquirers() {
+    public void initStaticData() {
+        createAcquirers();
+        createWoodRegions();
+        createTreeSpecies();
+        createWoodCertifications();
+        createLogQualityClasses();
+        createSuppliers();
+    }
+
+    private void createAcquirers() {
         Acquirer acquirer1 = new Acquirer("BE", "Eduard", "Banu", "1");
         Acquirer acquirer2 = new Acquirer("MT", "Teodor", "Moldovan", "1");
 
         getAcquirerDao().create(Arrays.asList(acquirer1, acquirer2));
     }
 
-    public void createWoodRegions() {
+    private void createWoodRegions() {
         WoodRegion woodRegion1 = new WoodRegion("East of Romania", "RO-E");
         WoodRegion woodRegion2 = new WoodRegion("Germany", "DE");
 
         getWoodRegionDao().create(Arrays.asList(woodRegion1, woodRegion2));
     }
 
-    public void createTreeSpecies() {
+    private void createTreeSpecies() {
         TreeSpecies treeSpecies1 = new TreeSpecies("bc", "Beech");
         TreeSpecies treeSpecies2 = new TreeSpecies("sp", "Spruce");
 
         getTreeSpeciesDao().create(Arrays.asList(treeSpecies1, treeSpecies2));
     }
 
-    public void createWoodCertifications() {
+    private void createWoodCertifications() {
         WoodCertification wc1 = new WoodCertification("None");
         WoodCertification wc2 = new WoodCertification("PEFC");
 
         getWoodCertificationDao().create(Arrays.asList(wc1, wc2));
     }
 
-    public void createLogQualityClasses() {
+    private void createLogQualityClasses() {
         LogQualityClass lc1 = new LogQualityClass("HQ", "High Quality");
         LogQualityClass lc2 = new LogQualityClass("LQ", "Low Quality");
 
         getLogQualityClassDao().create(Arrays.asList(lc1, lc2));
     }
 
-    public void createSuppliers() {
+    private void createSuppliers() {
         Supplier supplier1 = new Supplier("SuperWood", "Wood's street", "Germany", "Berlin",
                 "1234");
         Supplier supplier2 = new Supplier("UltraWood", "Spruce's street", "Austria", "Vienna",
