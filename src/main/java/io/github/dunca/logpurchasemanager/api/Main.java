@@ -6,10 +6,12 @@ import io.github.dunca.logpurchasemanager.api.route.AcquisitonRoute;
 import io.github.dunca.logpurchasemanager.api.route.FullAcquisitionRoute;
 import io.github.dunca.logpurchasemanager.api.route.StaticDataRoute;
 import io.github.dunca.logpurchasemanager.api.route.response.constants.ResponseMessages;
+import io.github.dunca.logpurchasemanager.api.route.response.exceptions.InvalidModelException;
 import io.github.dunca.logpurchasemanager.api.route.response.exceptions.UnsupportedHttpMethodException;
 import io.github.dunca.logpurchasemanager.api.route.response.exceptions.util.ResponseError;
 import io.github.dunca.logpurchasemanager.api.route.response.transformers.JsonResponseTransformer;
 import io.github.dunca.logpurchasemanager.api.route.response.util.StatusCode;
+import org.h2.tools.Server;
 import spark.Response;
 import spark.Route;
 
@@ -31,6 +33,7 @@ public class Main {
     private static final Logger L = Logger.getLogger(Main.class.getName());
 
     private static final int PORT = 80;
+    private static final int DB_PORT = 9090;
 
     private static final String DB_NAME = "log_purchase_manager_database";
     private static final String DB_FOLDER = System.getProperty("user.home");
@@ -38,6 +41,7 @@ public class Main {
 
     private static JsonResponseTransformer jsonResponseTransformer;
 
+    private static Server databaseServer;
     private static DatabaseHelper dbHelper;
 
     public static void main(String[] args) throws SQLException {
@@ -57,7 +61,8 @@ public class Main {
     }
 
     private static void initDb() throws SQLException {
-        dbHelper = new DatabaseHelper("jdbc:h2:" + DB_PATH);
+        databaseServer = Server.createTcpServer("-tcpPort", String.valueOf(DB_PORT)).start();
+        dbHelper = new DatabaseHelper("jdbc:h2:tcp://localhost:" + DB_PORT + "/" + DB_PATH);
 
         if (!(new File(DB_PATH + ".mv.db").isFile())) {
             dbHelper.createDatabaseTables();
@@ -77,6 +82,7 @@ public class Main {
 
     private static void registerExceptionClasses() {
         registerExceptionClass(UnsupportedHttpMethodException.class, StatusCode::badRequest);
+        registerExceptionClass(InvalidModelException.class, StatusCode::badRequest);
     }
 
     private static <T extends RuntimeException> void registerExceptionClass(Class<T> exceptionClass, Consumer<Response> responseStatusSetter) {
@@ -102,6 +108,7 @@ public class Main {
 
         before((req, res) -> {
             L.info("Incoming request for " + req.pathInfo());
+            L.info(req.body());
         });
     }
 
@@ -124,14 +131,14 @@ public class Main {
     }
 
     private static void registerGet(String path, Route route) {
-        get(path, new StaticDataRoute(dbHelper), jsonResponseTransformer);
+        get(path, route, jsonResponseTransformer);
     }
 
     private static void registerPost(String path, Route route) {
-        post(path, new StaticDataRoute(dbHelper), jsonResponseTransformer);
+        post(path, route, jsonResponseTransformer);
     }
 
     private static void registerPatch(String path, Route route) {
-        patch(path, new StaticDataRoute(dbHelper), jsonResponseTransformer);
+        patch(path, route, jsonResponseTransformer);
     }
 }
