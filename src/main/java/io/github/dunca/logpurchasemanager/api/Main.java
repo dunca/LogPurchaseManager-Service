@@ -11,6 +11,7 @@ import io.github.dunca.logpurchasemanager.api.route.response.exceptions.util.Res
 import io.github.dunca.logpurchasemanager.api.route.response.transformers.JsonResponseTransformer;
 import io.github.dunca.logpurchasemanager.api.route.response.util.StatusCode;
 import spark.Response;
+import spark.Route;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -115,10 +116,22 @@ public class Main {
     private static void registerRoutes() {
         L.info("Registering routes");
 
-        get("/staticdata", new StaticDataRoute(dbHelper));
-        post("/fullacquisition", new FullAcquisitionRoute(dbHelper));
-        patch("/acqusitions", new AcquisitonRoute(dbHelper));
-        patch("/acquisitionitems", new AcquisitonRoute(dbHelper));
-        patch("/logprices", new AcquisitonRoute(dbHelper));
+        registerGet("/staticdata", new StaticDataRoute(dbHelper));
+        registerPost("/fullacquisition", new FullAcquisitionRoute(dbHelper));
+        registerPatch("/acqusitions", new AcquisitonRoute(dbHelper));
+        registerPatch("/acquisitionitems", new AcquisitonRoute(dbHelper));
+        registerPatch("/logprices", new AcquisitonRoute(dbHelper));
+    }
+
+    private static void registerGet(String path, Route route) {
+        get(path, new StaticDataRoute(dbHelper), jsonResponseTransformer);
+    }
+
+    private static void registerPost(String path, Route route) {
+        post(path, new StaticDataRoute(dbHelper), jsonResponseTransformer);
+    }
+
+    private static void registerPatch(String path, Route route) {
+        patch(path, new StaticDataRoute(dbHelper), jsonResponseTransformer);
     }
 }
