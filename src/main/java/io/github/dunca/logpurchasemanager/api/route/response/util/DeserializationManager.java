@@ -1,4 +1,4 @@
-package io.github.dunca.logpurchasemanager.api.route;
+package io.github.dunca.logpurchasemanager.api.route.response.util;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
