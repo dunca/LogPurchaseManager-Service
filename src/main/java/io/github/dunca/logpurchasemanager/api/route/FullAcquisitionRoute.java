@@ -55,8 +55,21 @@ public class FullAcquisitionRoute extends Route {
             logPrice.setAcquisition(acquisition);
         }
 
+        /*
+         persist objects to the database, then update setServerAllocatedId to match the primary key. This property is
+         later used to know which db entry to update
+         */
         dbHelper.getAcquisitionDao().create(acquisition);
+        acquisition.setServerAllocatedId(acquisition.getId());
+
         dbHelper.getAcquisitionItemDao().create(acquisitionItemList);
+        for (AcquisitionItem acquisitionItem : acquisitionItemList) {
+            acquisitionItem.setServerAllocatedId(acquisitionItem.getId());
+        }
+
         dbHelper.getLogPriceDao().create(logPriceList);
+        for (LogPrice logPrice : logPriceList) {
+            logPrice.setServerAllocatedId(logPrice.getId());
+        }
     }
 }
