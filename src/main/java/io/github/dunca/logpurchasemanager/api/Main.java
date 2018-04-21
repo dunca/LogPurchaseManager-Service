@@ -2,8 +2,7 @@ package io.github.dunca.logpurchasemanager.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.dunca.logpurchasemanager.api.dao.DatabaseHelper;
-import io.github.dunca.logpurchasemanager.api.route.AggregationRoute;
-import io.github.dunca.logpurchasemanager.api.route.FullAcquisitionRoute;
+import io.github.dunca.logpurchasemanager.api.route.AcquisitionDataRoute;
 import io.github.dunca.logpurchasemanager.api.route.StaticDataRoute;
 import io.github.dunca.logpurchasemanager.api.route.response.constants.ResponseMessages;
 import io.github.dunca.logpurchasemanager.api.route.response.exceptions.InvalidModelException;
@@ -127,9 +126,8 @@ public class Main {
     private static void registerRoutes() {
         L.info("Registering routes");
 
-        registerGet("/staticdata", new StaticDataRoute(dbHelper));
-        registerPost("/fullacquisition", new FullAcquisitionRoute(dbHelper));
-        registerPost("/aggregation", new AggregationRoute(dbHelper));
+        registerGet("/static_data", new StaticDataRoute(dbHelper));
+        registerPost("/acquisition_data", new AcquisitionDataRoute(dbHelper));
     }
 
     private static void registerGet(String path, Route route) {

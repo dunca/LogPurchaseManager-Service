@@ -10,7 +10,7 @@ import io.github.dunca.logpurchasemanager.shared.model.Acquisition;
 import io.github.dunca.logpurchasemanager.shared.model.AcquisitionItem;
 import io.github.dunca.logpurchasemanager.shared.model.LogPrice;
 import io.github.dunca.logpurchasemanager.shared.model.constants.CommonFieldNames;
-import io.github.dunca.logpurchasemanager.shared.model.custom.FullAggregation;
+import io.github.dunca.logpurchasemanager.shared.model.custom.AcquisitionData;
 import spark.Request;
 import spark.Response;
 
@@ -18,8 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-public class AggregationRoute extends Route {
-    public static final Logger L = Logger.getLogger(AggregationRoute.class.getName());
+public class AcquisitionDataRoute extends Route {
+    public static final Logger L = Logger.getLogger(AcquisitionDataRoute.class.getName());
 
     private final RuntimeExceptionDao<Acquisition, Integer> acquisitionDao;
     private final RuntimeExceptionDao<AcquisitionItem, Integer> acquisitionItemDao;
@@ -29,7 +29,7 @@ public class AggregationRoute extends Route {
 
     private static final String statisticsMessageTemplate = "Inserted %d new %s instances and updated %d existing ones";
 
-    public AggregationRoute(DatabaseHelper dbHelper) {
+    public AcquisitionDataRoute(DatabaseHelper dbHelper) {
         super(dbHelper);
 
         acquisitionDao = dbHelper.getAcquisitionDao();
@@ -48,9 +48,9 @@ public class AggregationRoute extends Route {
         throw new UnsupportedHttpMethodException();
     }
 
-    private FullAggregation handlePost(Request request, Response response) {
-        FullAggregation aggregation = DeserializationManager.getInstance().deserialize(request.body(),
-                FullAggregation.class, false);
+    private AcquisitionData handlePost(Request request, Response response) {
+        AcquisitionData aggregation = DeserializationManager.getInstance().deserialize(request.body(),
+                AcquisitionData.class, false);
 
         int newAcquisitionCount = 0;
         int updatedAcquisitionCount = 0;
