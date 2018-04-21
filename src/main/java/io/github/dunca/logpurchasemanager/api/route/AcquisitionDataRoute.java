@@ -6,6 +6,7 @@ import io.github.dunca.logpurchasemanager.api.route.constants.RequestMethods;
 import io.github.dunca.logpurchasemanager.api.route.interfaces.Route;
 import io.github.dunca.logpurchasemanager.api.route.response.exceptions.UnsupportedHttpMethodException;
 import io.github.dunca.logpurchasemanager.api.route.response.util.DeserializationManager;
+import io.github.dunca.logpurchasemanager.api.route.response.util.StatusCode;
 import io.github.dunca.logpurchasemanager.shared.model.Acquisition;
 import io.github.dunca.logpurchasemanager.shared.model.AcquisitionItem;
 import io.github.dunca.logpurchasemanager.shared.model.LogPrice;
@@ -136,6 +137,8 @@ public class AcquisitionDataRoute extends Route {
         L.info(String.format(statisticsMessageTemplate, newLogPriceCount, LogPrice.class.getSimpleName(), updatedLogPriceCount));
 
         originalIdToAcquisitionMap.clear();
+
+        StatusCode.created(response);
 
         return aggregation;
     }
