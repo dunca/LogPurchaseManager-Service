@@ -1,6 +1,5 @@
 package io.github.dunca.logpurchasemanager.api.dao;
 
-import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
@@ -135,7 +134,7 @@ public class DatabaseHelper {
 
     private <T extends Model> RuntimeExceptionDao<T, Integer> getDao(Class<T> modelClass) {
         RuntimeExceptionDao<T, Integer> dao = null;
-        
+
         try {
             dao = RuntimeExceptionDao.createDao(connectionSource, modelClass);
         } catch (SQLException e) {
