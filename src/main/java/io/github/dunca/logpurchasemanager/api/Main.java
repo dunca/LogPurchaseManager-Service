@@ -83,6 +83,7 @@ public class Main {
     private static void registerExceptionClasses() {
         registerExceptionClass(UnsupportedHttpMethodException.class, StatusCode::badRequest);
         registerExceptionClass(InvalidModelException.class, StatusCode::badRequest);
+        registerExceptionClass(IllegalStateException.class, StatusCode::badRequest);
     }
 
     private static <T extends RuntimeException> void registerExceptionClass(Class<T> exceptionClass, Consumer<Response> responseStatusSetter) {
