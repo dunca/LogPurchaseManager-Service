@@ -18,6 +18,7 @@ import spark.Route;
 import java.io.File;
 import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 
@@ -106,8 +107,11 @@ public class Main {
         L.info("Registering 'before' filters");
 
         before((req, res) -> {
-            L.info("Incoming request for " + req.pathInfo());
-            L.info(req.body());
+            L.info(String.format("Incoming request for %s on %s", req.pathInfo(), new Date()));
+
+            if (!req.body().isEmpty()) {
+                L.info(req.body());
+            }
         });
     }
 
