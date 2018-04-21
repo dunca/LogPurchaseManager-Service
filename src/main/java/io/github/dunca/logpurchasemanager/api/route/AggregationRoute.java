@@ -21,14 +21,14 @@ public class AggregationRoute extends Route {
     @Override
     public Object handle(Request request, Response response) throws Exception {
         if (request.requestMethod().equals(RequestMethods.POST)) {
-            handlePost(request, response);
+            return handlePost(request, response);
         }
 
         throw new UnsupportedHttpMethodException();
     }
 
-    private void handlePost(Request request, Response response) {
-        FullAggregation aggregation = DeserializationManager.getInstance().deserialize(request.body(), AggregationRoute.class, false);
+    private FullAggregation handlePost(Request request, Response response) {
+        FullAggregation aggregation = DeserializationManager.getInstance().deserialize(request.body(), FullAggregation.class, false);
 
         for (Acquisition acquisition : aggregation.getAcquisitionList()) {
             acquisition.setId(acquisition.getServerAllocatedId());
@@ -54,6 +54,8 @@ public class AggregationRoute extends Route {
 
             dbHelper.getLogPriceDao().update(logPrice);
         }
+
+        return aggregation;
     }
 
     private Acquisition getAcquisitionByAppAllocatedId(int id) {
